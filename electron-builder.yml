@@ -1,0 +1,65 @@
+appId: com.fileorganizer.app
+productName: FileOrganizer
+copyright: Copyright © 2024 FileOrganizer
+
+directories:
+  output: dist
+  buildResources: resources
+
+files:
+  - dist/**/*
+  - dist-electron/**/*
+
+# Exclude development artifacts
+afterSign: scripts/notarize.js
+
+mac:
+  target:
+    - target: dmg
+      arch: [x64, arm64]
+    - target: zip
+      arch: [x64, arm64]
+  icon: resources/icon.icns
+  category: public.app-category.productivity
+  darkModeSupport: true
+  hardenedRuntime: true
+  gatekeeperAssess: false
+  entitlements: resources/entitlements.mac.plist
+  entitlementsInherit: resources/entitlements.mac.plist
+  extraResources:
+    - from: build/backend/file-organizer-backend
+      to: backend/file-organizer-backend
+
+win:
+  target:
+    - target: nsis
+      arch: [x64]
+    - target: portable
+      arch: [x64]
+  icon: resources/icon.ico
+  extraResources:
+    - from: build/backend/file-organizer-backend.exe
+      to: backend/file-organizer-backend.exe
+
+nsis:
+  oneClick: false
+  allowToChangeInstallationDirectory: true
+  createDesktopShortcut: true
+  createStartMenuShortcut: true
+  shortcutName: FileOrganizer
+
+linux:
+  target:
+    - target: AppImage
+      arch: [x64]
+    - target: deb
+      arch: [x64]
+  icon: resources/icon.png
+  category: Utility
+  extraResources:
+    - from: build/backend/file-organizer-backend
+      to: backend/file-organizer-backend
+
+publish:
+  provider: github
+  releaseType: release

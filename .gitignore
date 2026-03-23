@@ -1,0 +1,42 @@
+## Dependencies
+node_modules/
+
+## Build outputs
+dist/
+dist-electron/
+build/
+
+## Python
+*.pyc
+__pycache__/
+backend/.venv/
+backend/venv/
+backend/dist/
+backend/build/
+backend/*.spec
+*.egg-info/
+
+## Environment & secrets
+.env
+.env.*
+
+## OS files
+.DS_Store
+Thumbs.db
+
+## IDE & tools
+.claude/
+.vscode/
+.idea/
+*.swp
+*.swo
+
+## Standalone build artifacts
+standalone/web/
+standalone/dist/
+standalone/build/
+
+## Development notes (not for public repo)
+CLAUDE_1.md
+plan.md
+SKILL.md
