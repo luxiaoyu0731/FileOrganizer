@@ -40,3 +40,18 @@ standalone/build/
 CLAUDE_1.md
 plan.md
 SKILL.md
+
+# Local credentials, caches and temporary artifacts
+!.env*.example
+*.pem
+*.key
+*.p12
+*.pfx
+*.py[cod]
+.pytest_cache/
+*.log
+*.tmp
+*.bak
+.venv/
+.cache/
+!.env*.example

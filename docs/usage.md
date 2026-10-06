@@ -352,7 +352,7 @@ npm run build:win
 | 重命名策略 | `语义+日期`、`仅日期`、`保留原名` |
 | 文件大小上限 | 跳过超出此大小的文件（默认 500 MB） |
 
-> **安全说明：** API Key 在开发模式下存储于浏览器 `localStorage`，打包后通过 Electron `safeStorage` 加密存储（使用系统钥匙串）。API Key 不会出现在日志文件中。
+> **安全说明：** API Key 在开发模式下存储于浏览器 `localStorage`；打包后尝试使用 Electron `safeStorage`。系统加密服务不可用时存在明文回退，详见代码审查。不要共享本地存储或含凭据的调试输出。
 
 ---
 
