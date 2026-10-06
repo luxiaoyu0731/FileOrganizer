@@ -9,7 +9,7 @@ interface Props {
 const STEPS = ['欢迎', 'AI 配置', '扫描路径', '归档路径', '完成']
 
 const isElectron = typeof window !== 'undefined'
-  && typeof (window as Record<string, unknown>).backend === 'object'
+  && typeof window.backend === 'object'
   && typeof (window as { backend?: { selectDirectory?: unknown } }).backend?.selectDirectory === 'function'
 
 const inputClass = 'w-full border border-gray-300 rounded-lg px-3 py-2 text-sm text-gray-900 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500'

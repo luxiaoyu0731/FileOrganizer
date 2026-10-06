@@ -1,0 +1,8 @@
+{
+  "date": "2026-10-06",
+  "tool": "OpenAI built-in image_gen",
+  "prompt": "Use case: stylized-concept. Asset: GitHub README wide hero illustration for FileOrganizer. Beautiful polished editorial 3D paper sculpture: scattered documents on left become neatly sorted folders on right, subtle semantic constellation linking pages, ivory background, teal and soft amber accents, tactile folded paper, generous negative space, elegant and restrained. No text, no logos, no fake UI, no claims or charts. Wide landscape.",
+  "asset": "project-hero.png",
+  "sha256": "97f4c7e00e124a1d8fe5852f5235f942cebe22ee52d7eb7bf8d2e5da59866c24",
+  "review": "Concept illustration inspected; no fabricated UI or metrics; not a system screenshot."
+}

@@ -22,7 +22,7 @@ class ScanResult(BaseModel):
     size_bytes: int
     modified_time: str
     extension: str
-    sha256: str
+    sha256: str  # Legacy name: scan identity (path/size/mtime), not a content checksum.
 
 
 class ClassifyRequest(BaseModel):

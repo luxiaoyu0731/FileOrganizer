@@ -1,6 +1,10 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+@config "../tailwind.config.js";
+
+/* Preserve the v3 border default during the dependency migration. */
+@layer base {
+  *, ::before, ::after { border-color: var(--color-gray-200, currentColor); }
+}
 
 * {
   box-sizing: border-box;

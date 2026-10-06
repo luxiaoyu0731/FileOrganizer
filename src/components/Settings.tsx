@@ -20,7 +20,7 @@ const MODEL_PRESETS = [
 ]
 
 const isElectron = typeof window !== 'undefined'
-  && typeof (window as Record<string, unknown>).backend === 'object'
+  && typeof window.backend === 'object'
   && typeof (window as { backend?: { selectDirectory?: unknown } }).backend?.selectDirectory === 'function'
 
 export default function Settings() {

@@ -50,12 +50,13 @@ def test_scan_excludes_temp_files():
         assert results[0].extension == ".zip"
 
 
-def test_scan_includes_sha256():
+def test_scan_includes_stable_fast_identity():
     with tempfile.TemporaryDirectory() as tmp:
         (Path(tmp) / "file.txt").write_text("content")
         config = ScanConfig(paths=[tmp])
         results = scan_directory(config)
-        assert len(results[0].sha256) == 64
+        assert len(results[0].sha256) == 32
+        assert results[0].sha256 == scan_directory(config)[0].sha256
 
 
 def test_scan_nonexistent_path():

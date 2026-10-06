@@ -41,7 +41,7 @@ const DEFAULT_STORED: StoredSettings = {
 }
 
 // Running inside Electron with safeStorage IPC exposed?
-const isElectron = typeof window !== 'undefined' && typeof (window as Record<string, unknown>).backend === 'object'
+const isElectron = typeof window !== 'undefined' && typeof window.backend === 'object'
   && typeof (window as { backend?: { setApiKey?: unknown } }).backend?.setApiKey === 'function'
 
 /** Remove any accidental surrounding quotes from a path string. */

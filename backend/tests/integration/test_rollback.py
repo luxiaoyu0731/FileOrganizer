@@ -132,3 +132,32 @@ def test_list_operations_returns_all():
 
         ops = rollback_module.list_operations()
         assert len(ops) == 3
+
+
+def test_rollback_preserves_existing_recovered_file(tmp_path):
+    rollback_module.set_log_dir(tmp_path / "logs")
+    src = tmp_path / "note.txt"
+    src.write_text("original")
+    action = safe_move(src, tmp_path / "archive" / "note.txt")
+    op_id = rollback_module.write_operation_log([action])
+    src.write_text("occupied")
+    recovered = tmp_path / "note_recovered.txt"
+    recovered.write_text("existing recovery")
+    result = rollback_module.rollback_operation(op_id)
+    assert result["rolled_back"] == 1
+    assert src.read_text() == "occupied"
+    assert recovered.read_text() == "existing recovery"
+    assert (tmp_path / "note_recovered_001.txt").read_text() == "original"
+
+
+def test_rollback_keeps_archive_on_copy_corruption(tmp_path, monkeypatch):
+    rollback_module.set_log_dir(tmp_path / "logs")
+    src = tmp_path / "note.txt"
+    src.write_text("original")
+    dest = tmp_path / "archive" / "note.txt"
+    op_id = rollback_module.write_operation_log([safe_move(src, dest)])
+    monkeypatch.setattr(rollback_module.shutil, "copy2", lambda a, b: Path(b).write_text("corrupt"))
+    result = rollback_module.rollback_operation(op_id)
+    assert result["rolled_back"] == 0
+    assert dest.read_text() == "original"
+    assert result["errors"]

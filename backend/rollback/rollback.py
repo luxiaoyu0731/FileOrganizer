@@ -1,9 +1,11 @@
-import hashlib
 import json
 import logging
+import shutil
 import uuid
 from datetime import datetime, timezone
 from pathlib import Path
+
+from archiver.archiver import _resolve_conflict, _sha256
 
 logger = logging.getLogger(__name__)
 
@@ -83,18 +85,20 @@ def rollback_operation(operation_id: str) -> dict:
             continue
 
         # Verify hash hasn't changed
-        if expected_hash:
-            current_hash = _sha256(dest)
-            if current_hash != expected_hash:
-                errors.append(f"文件已被修改，跳过回滚：{dest}")
-                continue
+        current_hash = _sha256(dest)
+        if expected_hash and current_hash != expected_hash:
+            errors.append(f"文件已被修改，跳过回滚：{dest}")
+            continue
 
         # Restore to original location
-        restore_path = src if not src.exists() else src.with_name(src.stem + "_recovered" + src.suffix)
+        restore_path = src
+        if src.exists():
+            restore_path = _resolve_conflict(src.with_name(src.stem + "_recovered" + src.suffix))
         try:
             restore_path.parent.mkdir(parents=True, exist_ok=True)
-            import shutil
             shutil.copy2(str(dest), str(restore_path))
+            if _sha256(restore_path) != current_hash:
+                raise OSError("恢复副本校验失败；保留归档原文件")
             dest.unlink()
             rolled_back += 1
             rollback_actions.append({
@@ -134,11 +138,3 @@ def rollback_operation(operation_id: str) -> dict:
         "rollback_actions": rollback_actions,
         "cleanup_dirs": list(dest_dirs),
     }
-
-
-def _sha256(path: Path) -> str:
-    h = hashlib.sha256()
-    with path.open("rb") as f:
-        for chunk in iter(lambda: f.read(65536), b""):
-            h.update(chunk)
-    return h.hexdigest()

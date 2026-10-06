@@ -50,7 +50,7 @@ const BACKEND_ORIGIN = 'http://127.0.0.1:18923'
 
 // Detect Electron: contextBridge exposes window.backend
 const hasElectron = typeof window !== 'undefined'
-  && typeof (window as Record<string, unknown>).backend === 'object'
+  && typeof window.backend === 'object'
 
 async function apiFetch(path: string, options?: RequestInit): Promise<unknown> {
   const res = await fetch(`${BACKEND_ORIGIN}${path}`, {
