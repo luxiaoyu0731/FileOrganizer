@@ -64,7 +64,7 @@ python -m pytest backend/tests -q
 
 后端不可达时检查端口 18923 和日志；模型第一次使用可能下载向量权重，未配置模型不会完成 AI 分类。桌面密钥尝试使用 `safeStorage`，不可用时存在明文回退；浏览器设置位于本地存储。不要共享配置、日志或凭据。
 
-[代码审查](code-review.md) · [安全反馈](../SECURITY.md)
+[代码审查](code-review.md) · [安全反馈](../.github/SECURITY.md)
 
 ## 签名准备
 

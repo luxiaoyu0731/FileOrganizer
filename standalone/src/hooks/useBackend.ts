@@ -1,6 +1,6 @@
 /**
  * Standalone 版 useBackend —— 直接 fetch /api/...，无需 Electron IPC。
- * 构建时由 vite.standalone.config.ts 的 alias 替换掉主版本。
+ * 构建时由 config/vite.standalone.config.ts 的 alias 替换掉主版本。
  */
 import { useCallback, useState } from 'react'
 import type { AiConfig } from './useSettings'

@@ -88,7 +88,7 @@ build.sh / build.bat
   ├─ [1] pip install -r standalone/requirements.txt
   │       安装 Python 依赖 + PyInstaller
   │
-  ├─ [2] npx vite build --config vite.standalone.config.ts
+  ├─ [2] npx vite build --config config/vite.standalone.config.ts
   │       编译 React → standalone/web/
   │       关键：alias 将 useBackend / useSettings 替换为
   │             standalone/src/hooks/ 中的 fetch() 版本

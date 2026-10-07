@@ -16,10 +16,10 @@ export default defineConfig({
   resolve: {
     alias: {
       // 覆盖这两个 hook：用 fetch 版替换 Electron IPC 版
-      '@/hooks/useBackend': path.resolve(__dirname, 'standalone/src/hooks/useBackend.ts'),
-      '@/hooks/useSettings': path.resolve(__dirname, 'standalone/src/hooks/useSettings.ts'),
+      '@/hooks/useBackend': path.resolve(__dirname, '../standalone/src/hooks/useBackend.ts'),
+      '@/hooks/useSettings': path.resolve(__dirname, '../standalone/src/hooks/useSettings.ts'),
       // 其余 @/* 仍指向主 src/
-      '@': path.resolve(__dirname, './src'),
+      '@': path.resolve(__dirname, '../src'),
     },
   },
   build: {

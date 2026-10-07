@@ -32,7 +32,7 @@ echo [2/4] 构建前端（fetch 模式，无 Electron）...
 cd /d "%PROJECT_ROOT%"
 call npm install --silent
 if errorlevel 1 ( echo ERROR: npm install 失败 & exit /b 1 )
-call npx vite build --config vite.standalone.config.ts
+call npx vite build --config config/vite.standalone.config.ts
 if errorlevel 1 ( echo ERROR: vite build 失败 & exit /b 1 )
 echo       前端构建完成 -^> standalone\web\
 

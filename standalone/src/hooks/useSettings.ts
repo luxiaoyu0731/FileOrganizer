@@ -1,6 +1,6 @@
 /**
  * Standalone 版 useSettings —— 纯 localStorage，无 safeStorage。
- * 构建时由 vite.standalone.config.ts 的 alias 替换掉主版本。
+ * 构建时由 config/vite.standalone.config.ts 的 alias 替换掉主版本。
  */
 import { useCallback, useState } from 'react'
 

@@ -63,12 +63,12 @@ npm run build:frontend
 python -m pytest backend/tests -q
 ```
 
-[Code review](docs/code-review.md) · [Contributing](CONTRIBUTING.md) · [Security](SECURITY.md) · [Asset credits](docs/media/README.md)
+[Code review](docs/code-review.md) · [Contributing](.github/CONTRIBUTING.md) · [Security](.github/SECURITY.md) · [Asset credits](docs/media/README.md)
 
 </details>
 
 [Apache-2.0](LICENSE)
 
-[Report a bug](https://github.com/luxiaoyu0731/FileOrganizer/issues/new?template=bug_report.yml) · [First-use feedback](https://github.com/luxiaoyu0731/FileOrganizer/issues/new?template=first_use.yml) · [Starter tasks](CONTRIBUTING.md)
+[Report a bug](https://github.com/luxiaoyu0731/FileOrganizer/issues/new?template=bug_report.yml) · [First-use feedback](https://github.com/luxiaoyu0731/FileOrganizer/issues/new?template=first_use.yml) · [Starter tasks](.github/CONTRIBUTING.md)
 
 [Versioned releases and artifact verification](docs/releasing.md)

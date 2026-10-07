@@ -70,12 +70,12 @@ npm run build:frontend
 python -m pytest backend/tests -q
 ```
 
-[代码审查](docs/code-review.md)记录并发文件操作、凭据明文回退及未验收的安装包边界；不承诺零数据丢失。[贡献指南](CONTRIBUTING.md) · [安全反馈](SECURITY.md)。
+[代码审查](docs/code-review.md)记录并发文件操作、凭据明文回退及未验收的安装包边界；不承诺零数据丢失。[贡献指南](.github/CONTRIBUTING.md) · [安全反馈](.github/SECURITY.md)。
 
 </details>
 
 [Apache-2.0](LICENSE) · [素材说明](docs/media/README.md)
 
-[遇到问题](https://github.com/luxiaoyu0731/FileOrganizer/issues/new?template=bug_report.yml) · [告诉我们哪一步不清楚](https://github.com/luxiaoyu0731/FileOrganizer/issues/new?template=first_use.yml) · [从小任务参与](CONTRIBUTING.md)
+[遇到问题](https://github.com/luxiaoyu0731/FileOrganizer/issues/new?template=bug_report.yml) · [告诉我们哪一步不清楚](https://github.com/luxiaoyu0731/FileOrganizer/issues/new?template=first_use.yml) · [从小任务参与](.github/CONTRIBUTING.md)
 
 [Versioned releases and artifact verification](docs/releasing.md)

@@ -30,7 +30,7 @@ echo ""
 echo "[2/4] 构建前端（fetch 模式，无 Electron）..."
 cd "$PROJECT_ROOT"
 npm install --silent
-npx vite build --config vite.standalone.config.ts
+npx vite build --config config/vite.standalone.config.ts
 echo "      前端构建完成 → standalone/web/"
 
 # ── Step 3: PyInstaller 打包 ─────────────────────────────────

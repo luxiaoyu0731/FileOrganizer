@@ -6,7 +6,7 @@
  *   - APPLE_APP_SPECIFIC_PASSWORD : app-specific password from appleid.apple.com
  *   - APPLE_TEAM_ID     : 10-character Team ID from developer.apple.com
  *
- * electron-builder.yml references this via:
+ * config/electron-builder.yml references this via:
  *   afterSign: scripts/notarize.js
  */
 

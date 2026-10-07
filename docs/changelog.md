@@ -84,7 +84,7 @@
 - API Key 不写入操作日志，不传输到外部服务
 
 #### 打包与分发
-- `electron-builder.yml`：macOS（DMG + zip，x64 + arm64）、Windows（NSIS + portable）、Linux（AppImage + deb）
+- `config/electron-builder.yml`：macOS（DMG + zip，x64 + arm64）、Windows（NSIS + portable）、Linux（AppImage + deb）
 - `scripts/build-backend.sh`：macOS/Linux PyInstaller 打包脚本
 - `scripts/build-backend.bat`：Windows PyInstaller 打包脚本
 - `scripts/notarize.js`：macOS 公证脚本（需 APPLE_ID 等环境变量）
