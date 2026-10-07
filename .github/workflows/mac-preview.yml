@@ -1,0 +1,56 @@
+name: Build unsigned Mac preview
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  build:
+    runs-on: macos-15
+    timeout-minutes: 60
+    env:
+      CSC_IDENTITY_AUTO_DISCOVERY: 'false'
+      APPLE_ID: ''
+      APPLE_APP_SPECIFIC_PASSWORD: ''
+      APPLE_TEAM_ID: ''
+      APPLE_KEYCHAIN_PROFILE: ''
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '24'
+          cache: npm
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.11'
+      - run: test "$(uname -m)" = arm64
+      - run: npm ci
+      - run: python -m pip install -r backend/requirements.txt pyinstaller
+      - name: Record resolved build dependencies
+        run: |
+          mkdir -p preview-evidence
+          python -m pip freeze > preview-evidence/python-build-dependencies.txt
+          npm ls --all --json > preview-evidence/npm-build-dependencies.json
+      - run: python -m pytest backend/tests -q > preview-evidence/backend-tests.txt
+      - run: npm run typecheck > preview-evidence/types.txt
+      - run: npm audit --audit-level=high --registry=https://registry.npmjs.org
+      - run: npm run build:backend
+      - run: npm run build:mac
+      - name: Verify packaged backend and installer
+        run: |
+          hdiutil verify release/*.dmg
+          APP=release/mac-arm64/FileOrganizer.app
+          test -x "$APP/Contents/Resources/backend/file-organizer-backend"
+          file "$APP/Contents/Resources/backend/file-organizer-backend" | grep arm64
+          python scripts/check-packaged-backend.py "$APP/Contents/Resources/backend/file-organizer-backend"
+          shasum -a 256 release/*.dmg release/*.zip > preview-evidence/SHA256SUMS
+          git rev-parse HEAD > preview-evidence/source-commit.txt
+          printf '%s\n' 'Unsigned, unnotarized Apple Silicon preview. CI checks backend startup and package integrity; interactive desktop use still requires manual acceptance. Keep macOS security protections enabled.' > preview-evidence/LIMITATIONS.txt
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: unsigned-mac-arm64-preview
+          path: |
+            release/*.dmg
+            release/*.zip
+            preview-evidence/
+          if-no-files-found: error
+          retention-days: 14

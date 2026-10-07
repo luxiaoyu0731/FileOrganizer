@@ -300,4 +300,5 @@ async def watch_status() -> dict:
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host="127.0.0.1", port=18923)
+    import os
+    uvicorn.run(app, host="127.0.0.1", port=int(os.environ.get("FILEORGANIZER_PORT", "18923")))

@@ -1,5 +1,10 @@
 # Changelog
 
+## Unreleased
+
+- Add versioned source and unsigned Mac arm64 build workflows with checksums and backend readiness checks.
+- Add isolated backend port override; default remains loopback port 18923.
+
 所有重要变更均记录在此文件中，格式遵循 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.0.0/)。
 
 ---
