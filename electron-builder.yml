@@ -61,4 +61,6 @@ linux:
 
 publish:
   provider: github
+  owner: luxiaoyu0731
+  repo: FileOrganizer
   releaseType: release
