@@ -55,3 +55,9 @@ SKILL.md
 .venv/
 .cache/
 !.env*.example
+
+# Packaged installers
+release/
+
+# Original recordings retained locally; compact GIFs are published
+docs/media/*.webm

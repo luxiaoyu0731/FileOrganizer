@@ -3,12 +3,13 @@ productName: FileOrganizer
 copyright: Copyright © 2024 FileOrganizer
 
 directories:
-  output: dist
+  output: release
   buildResources: resources
 
 files:
   - dist/**/*
   - dist-electron/**/*
+  - resources/icon.png
 
 # Exclude development artifacts
 afterSign: scripts/notarize.js
@@ -16,16 +17,14 @@ afterSign: scripts/notarize.js
 mac:
   target:
     - target: dmg
-      arch: [x64, arm64]
+      arch: [arm64]
     - target: zip
-      arch: [x64, arm64]
+      arch: [arm64]
   icon: resources/icon.icns
   category: public.app-category.productivity
   darkModeSupport: true
   hardenedRuntime: true
   gatekeeperAssess: false
-  entitlements: resources/entitlements.mac.plist
-  entitlementsInherit: resources/entitlements.mac.plist
   extraResources:
     - from: build/backend/file-organizer-backend
       to: backend/file-organizer-backend

@@ -199,7 +199,7 @@ class FileWatcher:
                 if not src.exists():
                     continue
                 dest = build_destination(cls, self._archive_root, self._rename_strategy)
-                action = safe_move(src, dest)
+                action = safe_move(src, dest, archive_root=self._archive_root)
                 action["classification"] = {"category": cls["category"], "confidence": cls["confidence"]}
                 action["classification_method"] = cls["classification_method"]
                 actions.append(action)

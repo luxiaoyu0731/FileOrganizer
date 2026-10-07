@@ -7,12 +7,12 @@
     "dev": "concurrently \"npm run dev:vite\" \"npm run dev:electron\"",
     "dev:vite": "vite",
     "dev:electron": "wait-on http://localhost:5173 && tsc -p tsconfig.electron.json && electron .",
-    "build": "npm run build:frontend && npm run build:electron && electron-builder",
+    "build": "npm run build:frontend && npm run build:electron && electron-builder --publish never",
     "build:frontend": "vite build",
     "build:electron": "tsc -p tsconfig.electron.json",
     "build:backend": "bash scripts/build-backend.sh",
-    "build:mac": "npm run build && electron-builder --mac",
-    "build:win": "npm run build && electron-builder --win",
+    "build:mac": "npm run build:frontend && npm run build:electron && electron-builder --mac --arm64 --publish never",
+    "build:win": "npm run build:frontend && npm run build:electron && electron-builder --win --publish never",
     "test": "vitest",
     "typecheck": "tsc --noEmit"
   },
@@ -36,51 +36,11 @@
     "wait-on": "^9.0.3",
     "@tailwindcss/postcss": "^4.3.3"
   },
-  "build": {
-    "appId": "com.fileorganizer.app",
-    "productName": "FileOrganizer",
-    "directories": {
-      "output": "dist"
-    },
-    "files": [
-      "dist/**/*",
-      "dist-electron/**/*"
-    ],
-    "mac": {
-      "target": [
-        "dmg",
-        "zip"
-      ],
-      "icon": "resources/icon.icns",
-      "extraResources": [
-        {
-          "from": "build/backend/file-organizer-backend",
-          "to": "backend/file-organizer-backend"
-        }
-      ]
-    },
-    "win": {
-      "target": [
-        "nsis",
-        "portable"
-      ],
-      "icon": "resources/icon.ico",
-      "extraResources": [
-        {
-          "from": "build/backend/file-organizer-backend.exe",
-          "to": "backend/file-organizer-backend.exe"
-        }
-      ]
-    },
-    "nsis": {
-      "oneClick": false,
-      "allowToChangeInstallationDirectory": true,
-      "createDesktopShortcut": true,
-      "createStartMenuShortcut": true
-    }
-  },
   "license": "Apache-2.0",
   "engines": {
     "node": "^22.12.0 || ^24.0.0 || >=26.0.0"
+  },
+  "overrides": {
+    "shell-quote": "^1.11.0"
   }
 }

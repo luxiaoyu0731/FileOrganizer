@@ -4,6 +4,7 @@ import path from 'path'
 
 export default defineConfig({
   plugins: [react()],
+  base: "./", // Packaged Electron loads the frontend via file://.
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),

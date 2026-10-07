@@ -4,7 +4,7 @@ import path from 'path'
 
 const BACKEND_PORT = 18923
 const HEALTH_URL = `http://127.0.0.1:${BACKEND_PORT}/api/health`
-const MAX_RETRIES = 30
+const MAX_RETRIES = 120
 const RETRY_INTERVAL_MS = 500
 
 let backendProcess: ChildProcess | null = null
@@ -17,9 +17,9 @@ function getBackendPath(): { cmd: string; args: string[] } {
     return { cmd: backendPath, args: [] }
   } else {
     return {
-      cmd: 'uvicorn',
+      cmd: process.env.FILEORGANIZER_PYTHON || path.join(__dirname, '..', 'backend', 'venv', process.platform === 'win32' ? 'Scripts' : 'bin', process.platform === 'win32' ? 'python.exe' : 'python'),
       args: [
-        'server:app',
+        '-m', 'uvicorn', 'server:app',
         '--host', '127.0.0.1',
         '--port', String(BACKEND_PORT),
         '--reload',
@@ -58,6 +58,9 @@ export async function startSidecar(): Promise<void> {
   })
   backendProcess.stderr?.on('data', (d: Buffer) => {
     console.error('[backend-err]', d.toString().trim())
+  })
+  backendProcess.on('error', (error) => {
+    console.error('[backend] failed to start:', error.message)
   })
   backendProcess.on('exit', (code) => {
     console.log('[backend] exited with code', code)

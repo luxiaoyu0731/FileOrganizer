@@ -1,16 +1,32 @@
 # FileOrganizer
 
+[English](README.en.md)
+
 把散落的合同、表格、图片和代码整理成项目目录，先看分类方案，再确认归档。
 
 ![文件整理概念插画](docs/media/project-hero.png)
 
 Electron · React · Python / FastAPI · Apache-2.0
 
+![Recorded walkthrough](docs/media/walkthrough.gif)
+
+演示说明：实际浏览器扫描合成文件；分类与归档回滚的无费用样例见 examples/try_archive.py。未把预设分类当作 AI 结果。
+
 ## 核心功能
 
 - 结合文件摘要、语义向量与大模型，按项目分组并细分目录。
 - 在目录树中预览分类方案，确认后执行复制、SHA-256 校验与归档。
 - 保存操作记录，支持冲突换名恢复和目录监听。
+
+[下载 Mac Apple Silicon 未签名体验版](https://github.com/luxiaoyu0731/FileOrganizer/releases/tag/v0.1.0-preview.1)
+
+## 免费试用样例
+
+```sh
+python3 examples/try_archive.py --destination ../fileorganizer-sample
+```
+
+只创建自带的合成文件，执行真实归档、回滚与内容校验；分类由样例指定，不调用模型。目标必须是新目录。
 
 ## 本地运行
 

@@ -6,6 +6,8 @@ def _clean_name(name: str) -> str:
     """Remove illegal characters, collapse whitespace, truncate to 80 chars."""
     name = re.sub(r'[\\/:*?"<>|]', "", name)
     name = re.sub(r"\s+", "_", name.strip())
+    if name in {".", ".."}:
+        raise ValueError("Invalid path segment")
     return name[:80]
 
 
@@ -15,11 +17,11 @@ def _extract_date(classification: dict, file_path: str) -> str:
     meta = classification.get("metadata", {})
     for key in ("date_taken", "created_date", "modified_date"):
         val = meta.get(key, "")
-        if val and len(val) >= 10:
+        if isinstance(val, str) and re.fullmatch(r"\d{4}-\d{2}-\d{2}", val[:10]):
             return val[:10]
     # 2. From modified_time on the scan result (passed via classification)
     modified_time = classification.get("modified_time", "")
-    if modified_time and len(modified_time) >= 10:
+    if isinstance(modified_time, str) and re.fullmatch(r"\d{4}-\d{2}-\d{2}", modified_time[:10]):
         return modified_time[:10]
     # 3. Fallback: today
     from datetime import date
@@ -56,4 +58,8 @@ def build_destination(
         dest_dir = Path(archive_root) / cat
         if subcat:
             dest_dir = dest_dir / subcat
-    return dest_dir / new_name
+    root = Path(archive_root).resolve()
+    destination = dest_dir / new_name
+    if not destination.resolve().is_relative_to(root):
+        raise ValueError("Destination escapes archive root")
+    return destination

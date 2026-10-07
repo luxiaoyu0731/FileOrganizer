@@ -10,6 +10,7 @@ import hashlib
 import tempfile
 
 from archiver.archiver import safe_move
+from archiver import archiver as archiver_module
 from rollback import rollback as rollback_module
 
 
@@ -156,7 +157,7 @@ def test_rollback_keeps_archive_on_copy_corruption(tmp_path, monkeypatch):
     src.write_text("original")
     dest = tmp_path / "archive" / "note.txt"
     op_id = rollback_module.write_operation_log([safe_move(src, dest)])
-    monkeypatch.setattr(rollback_module.shutil, "copy2", lambda a, b: Path(b).write_text("corrupt"))
+    monkeypatch.setattr(archiver_module.shutil, "copyfileobj", lambda a, b: b.write(b"corrupt"))
     result = rollback_module.rollback_operation(op_id)
     assert result["rolled_back"] == 0
     assert dest.read_text() == "original"

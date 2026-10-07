@@ -4,7 +4,9 @@ set -euo pipefail
 cd "$(dirname "$0")/../backend"
 
 echo "Building Python backend with PyInstaller..."
-pyinstaller \
+"${FILEORGANIZER_PYTHON:-python3}" -m PyInstaller \
+  --clean \
+  --noconfirm \
   --onefile \
   --name file-organizer-backend \
   --add-data "config:config" \

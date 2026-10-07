@@ -12,7 +12,6 @@
 
 'use strict'
 
-const { notarize } = require('@electron/notarize')
 const path = require('path')
 
 module.exports = async function notarizeApp(context) {
@@ -30,11 +29,12 @@ module.exports = async function notarizeApp(context) {
       '[notarize] Skipping notarization — set APPLE_ID, APPLE_APP_SPECIFIC_PASSWORD, ' +
       'and APPLE_TEAM_ID to enable.\n' +
       '[notarize] Without notarization, macOS Gatekeeper will block the app for users ' +
-      'who downloaded it from the internet. They can bypass by right-clicking → Open.'
+      'who downloaded it from the internet. Keep system security protections enabled.'
     )
     return
   }
 
+  const { notarize } = require('@electron/notarize')
   const appName = context.packager.appInfo.productFilename
   const appPath = path.join(appOutDir, `${appName}.app`)
 

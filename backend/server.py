@@ -137,7 +137,7 @@ async def execute(request: ExecuteRequest) -> dict:
             })
             continue
         dest = build_destination(cls.model_dump(), request.archive_root, request.rename_strategy)
-        action = safe_move(src, dest)
+        action = safe_move(src, dest, archive_root=request.archive_root)
         action["classification"] = {"category": cls.category, "confidence": cls.confidence}
         action["classification_method"] = cls.classification_method
         actions.append(action)

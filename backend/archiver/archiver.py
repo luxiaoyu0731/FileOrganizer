@@ -45,20 +45,37 @@ def _check_disk_space(src: Path, dest_parent: Path) -> None:
         pass  # Non-fatal if disk_usage fails on unusual mounts
 
 
-def safe_move(src: Path, dest: Path) -> dict:
+def safe_move(src: Path, dest: Path, *, archive_root: str | None = None) -> dict:
     """
     Copy src → dest (with conflict resolution), verify SHA256, then delete src.
     Returns action log entry.
     """
+    if archive_root is not None and not dest.resolve().is_relative_to(Path(archive_root).resolve()):
+        raise ValueError("Destination escapes archive root")
     src_hash = _sha256(src)
-    dest = _resolve_conflict(dest)
     dest.parent.mkdir(parents=True, exist_ok=True)
     _check_disk_space(src, dest.parent)
 
+    owned = False
     try:
-        shutil.copy2(str(src), str(dest))
+        # Exclusive creation closes the check-then-copy overwrite race.
+        requested = dest
+        for i in range(1000):
+            dest = requested if i == 0 else requested.with_name(f"{requested.stem}_{i:03d}{requested.suffix}")
+            try:
+                target = dest.open("xb")
+                owned = True
+                break
+            except FileExistsError:
+                continue
+        else:
+            raise FileExistsError(f"Too many conflicts for {requested}")
+        with target, src.open("rb") as source:
+            shutil.copyfileobj(source, target)
+            target.flush()
+        shutil.copystat(src, dest)
         dest_hash = _sha256(dest)
-        if src_hash != dest_hash:
+        if src_hash != dest_hash or _sha256(src) != src_hash:
             dest.unlink(missing_ok=True)
             raise IOError(f"Hash mismatch after copy: {src} → {dest}")
         src.unlink()
@@ -73,7 +90,7 @@ def safe_move(src: Path, dest: Path) -> dict:
     except Exception as e:
         logger.error("Failed to move %s → %s: %s", src, dest, e)
         # Clean up partial copy
-        if dest.exists():
+        if owned and dest.exists():
             try:
                 dest.unlink()
             except Exception:
