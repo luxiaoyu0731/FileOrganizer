@@ -8,6 +8,7 @@ jobs:
     runs-on: macos-15
     timeout-minutes: 60
     env:
+      FILEORGANIZER_PYTHON: ${{ github.workspace }}/.build-venv/bin/python
       CSC_IDENTITY_AUTO_DISCOVERY: 'false'
       APPLE_ID: ''
       APPLE_APP_SPECIFIC_PASSWORD: ''
@@ -24,13 +25,16 @@ jobs:
           python-version: '3.11'
       - run: test "$(uname -m)" = arm64
       - run: npm ci
-      - run: python -m pip install -r backend/requirements.txt pyinstaller
+      - name: Install in a clean build environment
+        run: |
+          python -m venv --without-pip .build-venv
+          python -m pip --python .build-venv/bin/python install -r backend/requirements.txt pyinstaller
       - name: Record resolved build dependencies
         run: |
           mkdir -p preview-evidence
-          python -m pip freeze > preview-evidence/python-build-dependencies.txt
+          python -m pip --python .build-venv/bin/python freeze > preview-evidence/python-build-dependencies.txt
           npm ls --all --json > preview-evidence/npm-build-dependencies.json
-      - run: python -m pytest backend/tests -q > preview-evidence/backend-tests.txt
+      - run: .build-venv/bin/python -m pytest backend/tests -q > preview-evidence/backend-tests.txt
       - run: npm run typecheck > preview-evidence/types.txt
       - run: npm audit --audit-level=high --registry=https://registry.npmjs.org
       - run: npm run build:backend

@@ -61,3 +61,6 @@ release/
 
 # Original recordings retained locally; compact GIFs are published
 docs/media/*.webm
+
+# Isolated packaging environment
+.build-venv/
