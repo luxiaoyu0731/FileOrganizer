@@ -18,7 +18,7 @@ with tempfile.TemporaryDirectory(prefix="file-preview-") as tmp:
         try:
             for _ in range(90):
                 if child.poll() is not None:
-                    raise RuntimeError("Packaged backend exited before readiness")
+                    raise RuntimeError("Packaged backend exited before readiness:\n" + (Path(tmp)/"startup.log").read_text(errors="replace")[-6000:])
                 try:
                     with urllib.request.urlopen(f"http://127.0.0.1:{port}/api/health",timeout=1) as response:
                         if response.status == 200:
