@@ -23,8 +23,9 @@ module.exports = async function notarizeApp(context) {
   const appleId = process.env.APPLE_ID
   const appleIdPassword = process.env.APPLE_APP_SPECIFIC_PASSWORD
   const teamId = process.env.APPLE_TEAM_ID
+  const keychainProfile = process.env.APPLE_KEYCHAIN_PROFILE
 
-  if (!appleId || !appleIdPassword || !teamId) {
+  if (!keychainProfile && (!appleId || !appleIdPassword || !teamId)) {
     console.warn(
       '[notarize] Skipping notarization — set APPLE_ID, APPLE_APP_SPECIFIC_PASSWORD, ' +
       'and APPLE_TEAM_ID to enable.\n' +
@@ -43,9 +44,7 @@ module.exports = async function notarizeApp(context) {
   await notarize({
     tool: 'notarytool',
     appPath,
-    appleId,
-    appleIdPassword,
-    teamId,
+    ...(keychainProfile ? { keychainProfile } : { appleId, appleIdPassword, teamId }),
   })
 
   console.log('[notarize] Notarization complete.')

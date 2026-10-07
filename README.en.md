@@ -8,6 +8,8 @@ Turn scattered documents, spreadsheets, pictures and code into project folders. 
 
 Electron · React · FastAPI · Apache-2.0
 
+[View the archive and restore result](docs/sample-result.md)
+
 ![Recorded walkthrough](docs/media/walkthrough.gif)
 
 Recorded browser scan of synthetic files; no AI calls. The CLI example separately validates actual archiving and rollback.
@@ -66,3 +68,5 @@ python -m pytest backend/tests -q
 </details>
 
 [Apache-2.0](LICENSE)
+
+[Report a bug](https://github.com/luxiaoyu0731/FileOrganizer/issues/new?template=bug_report.yml) · [First-use feedback](https://github.com/luxiaoyu0731/FileOrganizer/issues/new?template=first_use.yml) · [Starter tasks](CONTRIBUTING.md)

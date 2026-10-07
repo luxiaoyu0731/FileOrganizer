@@ -2,11 +2,13 @@
 
 [English](README.en.md)
 
-把散落的合同、表格、图片和代码整理成项目目录，先看分类方案，再确认归档。
+给文件散落在下载目录和项目文件夹中的用户：先预览按项目组织的目录，再确认归档，并保留可校验的操作记录。
 
 ![文件整理概念插画](docs/media/project-hero.png)
 
 Electron · React · Python / FastAPI · Apache-2.0
+
+[查看实际归档前后与恢复结果](docs/sample-result.md)
 
 ![Recorded walkthrough](docs/media/walkthrough.gif)
 
@@ -73,3 +75,5 @@ python -m pytest backend/tests -q
 </details>
 
 [Apache-2.0](LICENSE) · [素材说明](docs/media/README.md)
+
+[遇到问题](https://github.com/luxiaoyu0731/FileOrganizer/issues/new?template=bug_report.yml) · [告诉我们哪一步不清楚](https://github.com/luxiaoyu0731/FileOrganizer/issues/new?template=first_use.yml) · [从小任务参与](CONTRIBUTING.md)

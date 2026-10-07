@@ -14,7 +14,8 @@
     "build:mac": "npm run build:frontend && npm run build:electron && electron-builder --mac --arm64 --publish never",
     "build:win": "npm run build:frontend && npm run build:electron && electron-builder --win --publish never",
     "test": "vitest",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "build:mac:signed": "node scripts/check-signing.cjs && npm run build:mac"
   },
   "dependencies": {
     "react": "^19.2.4",

@@ -65,3 +65,7 @@ python -m pytest backend/tests -q
 后端不可达时检查端口 18923 和日志；模型第一次使用可能下载向量权重，未配置模型不会完成 AI 分类。桌面密钥尝试使用 `safeStorage`，不可用时存在明文回退；浏览器设置位于本地存储。不要共享配置、日志或凭据。
 
 [代码审查](code-review.md) · [安全反馈](../SECURITY.md)
+
+## 签名准备
+
+已有 Developer ID Application 证书并安全配置 `notarytool` Keychain profile 后，设置 `APPLE_KEYCHAIN_PROFILE`，运行 `npm run build:mac:signed`。预检查在没有证书、没有公证凭据或主动关闭签名发现时拒绝构建；不打印凭据，不自动创建或购买账号。完整签名版仍需验证 `codesign --verify --deep --strict`、`xcrun stapler validate` 和 `spctl --assess`，通过后才能标为签名发行。当前下载入口仍为未签名体验版。

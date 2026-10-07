@@ -23,6 +23,9 @@ def run(destination):
     if any(a["status"] != "success" for a in actions):
         raise RuntimeError("Archive failed; retain sample directory for inspection")
     operation = write_operation_log(actions, mode="offline-sample", ai_model="none")
+    report = "# Synthetic archive / restore result\n\nManual categories; real file operations; 0 model calls.\n\n| Before | After archive |\n| --- | --- |\n"
+    for name in contents:
+        report += f"| inbox/{name} | archive/Sample project/{name} |\n"
     print("Archived 3 synthetic files using real copy/checksum code.")
     restored = rollback_operation(operation)
     if restored["errors"] or restored["rolled_back"] != len(contents):
@@ -31,6 +34,8 @@ def run(destination):
         assert hashlib.sha256((source / name).read_bytes()).digest() == hashlib.sha256(text.encode()).digest()
     result = {"synthetic": True, "model_calls": 0, "archived": len(actions), "restored": restored["rolled_back"], "checksums_verified": True}
     (root / "result.json").write_text(json.dumps(result, indent=2) + "\n")
+    report += "\n## Restore result\n\nAll three files returned to inbox; restored bytes match the originals. The archive no longer contains these files. This demonstrates the operation path, not AI classification or unconditional recovery.\n"
+    (root / "sample-result.md").write_text(report, encoding="utf-8")
     print(json.dumps(result, indent=2))
 
 if __name__ == "__main__":
