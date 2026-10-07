@@ -1,10 +1,15 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+fileorganizer_python="${FILEORGANIZER_PYTHON:-python3}"
+if [[ "$fileorganizer_python" == */* && "$fileorganizer_python" != /* ]]; then
+  fileorganizer_python="$PWD/$fileorganizer_python"
+fi
+
 cd "$(dirname "$0")/../backend"
 
 echo "Building Python backend with PyInstaller..."
-"${FILEORGANIZER_PYTHON:-python3}" -m PyInstaller \
+"$fileorganizer_python" -m PyInstaller \
   --clean \
   --noconfirm \
   --onefile \

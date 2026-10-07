@@ -56,3 +56,7 @@ Git 历史 Gitleaks：0 项。依赖扫描与构建结果见仓库整理清单�
 本批体验版就绪审查：GO WITH WARNINGS，仅限未签名 Apple Silicon 体验包。npm 官方扫描为 8 中危、0 高危、0 严重，剩余项在 electron-builder 的开发工具链；shell-quote 严重项升级至 1.12.0 后消除。TypeScript 与 Electron 编译、前端构建通过；31 项后端测试通过；离线样例 3 文件归档与恢复的内容校验通过。付费 AI 分类、Intel/Windows/Linux、浏览器下载 quarantine 后首次启动不在已验范围。
 
 DMG SHA-256：`bed284ed7a9acea770a1766194fd9fa6403a30d505b7ecce7eb1ab8c10a406e3`。本地复制启动不等于签名或公证通过。发现问题时撤下 GitHub 体验版资产，源码回滚本批提交；不需要修改用户数据。
+
+### Clean build regression (2026-10-07)
+
+The backend builder previously changed into `backend/` before resolving FILEORGANIZER_PYTHON, so the documented relative interpreter `backend/venv/bin/python` could no longer be found. Relative paths now resolve against the caller directory before changing directories. An isolated regression covers a relative interpreter with spaces and the copied output. This changes build invocation, not file operation semantics; revert the builder change to roll back. Mac preview CI separately verifies DMG integrity, arm64 and packaged backend startup; a successful compile alone is not acceptance.
